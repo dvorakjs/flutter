@@ -1,1 +1,42 @@
-test
+2024년 01월 16일
+
+-- 다이얼패드 로딩------
+*pugspec.yaml의 dependencies에 추가
+ url_launcher: ^6.2.3
+*package:flutter_dialpad/flutter_dialpad.dart의 Dialpad는 bottom overflow 발생시킴
+*package:url_launcher/url_launcher.dart를 사용하는 것이 좋음
+        Uri phoneno = Uri.parse('tel:+821073246958');
+
+            if(await launchUrl(phoneno)){
+
+            }else{
+              
+            }
+
+---구글 맵 로딩---------------------
+*pugspec.yaml의 dependencies에 추가
+  google_maps_flutter: ^2.5.3
+*package:google_maps_flutter/google_maps_flutter.dart 사용
+    class MapScreen extends StatelessWidget {
+        const MapScreen({super.key});
+  
+        @override
+        Widget build(BuildContext context) {
+        final googleMapController = Completer<GoogleMapController>();
+        const CameraPosition plex = CameraPosition(
+        target: LatLng(37.42796133580664, -122.085749655962),
+        zoom: 14.4746,
+        );
+    
+        return GoogleMap(
+            mapType: MapType.hybrid,
+            initialCameraPosition: plex,
+            onMapCreated: (GoogleMapController controller) => googleMapController.complete(controller),
+        );
+        }
+    }
+
+
+--카카오 공유 로딩---------------------
+*pugspec.yaml의 dependencies에 추가
+kakao_flutter_sdk_share: ^1.8.0 
