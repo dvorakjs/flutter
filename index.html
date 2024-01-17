@@ -45,6 +45,52 @@ kakao_flutter_sdk_share: ^1.8.0
 
 
 <h1>2024년 01월 17일</h1>
-악취센서 앱
+<h2>악취센서 앱</h2>
+*구조
+-몇 개의 센서와 센서별 값을 보여줌(v1)
+-Tabbar와 TabbarView 
+-DefaultTabController에게 탭 갯수를 알려줘야 함
+-TabController도 있음
+    vsync를 연결해야 함
+    기본 Widget에서는 사용 불가
+    Ticker 위젯을 믹스인 해야 함
 
+    DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+            bottom: const TabBar(
+                            tabs:[
+                            
+                            ]
+            )
+        )
+        body: const TabBarView(
+            children:[
+            ]
+        )
+      ...
+      ));
+
+*DB 연결
+-https://docs.flutter.dev/cookbook/persistence/sqlite
+-import sqflite 와 path 패키지
+ flutter pub add sqflite path
+
+-import 패키지
+ import 'package:sqflite/sqflite.dart';
+ import 'package:path/path.dart';
+
+ -data model 정의: class
+  class Dog {
+    final int id;
+    final String name;
+    final int age;
+  
+    const Dog({
+      required this.id,
+      required this.name,
+      required this.age,
+    });
+  }
 </pre>
