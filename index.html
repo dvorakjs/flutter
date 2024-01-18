@@ -88,7 +88,29 @@ kakao_flutter_sdk_share: ^1.8.0
 *DB 연결(db 서버 연결)
 1. DB 서버 설치
    -mysql, h2
-1. DB 서버에 backend API 작성
-   - php
-
+2. DB 서버에 backend API 작성
+ 
+3. Dio를 사용하여 request 보냄
+Future<String> getData() async {
+    BaseOptions options = BaseOptions(
+           baseUrl: "https://10.0.2.2:8080/flutterApi.php",
+           receiveDataWhenStatusError: true,
+           connectTimeout: const Duration(seconds: 50000), // 60 seconds
+           receiveTimeout: const Duration(seconds: 50000) // 60 seconds
+           );
+        Dio dio = new Dio(options);  
+   final response = await dio.get("https://10.0.2.2:8080/flutterApi.php");
+   
+   print(response.statusCode);
+   if (response.statusCode == 200) {
+     // If the server did return a 200 OK response,
+     // then parse the JSON.
+     
+     return "ok";
+   } else {
+     // If the server did not return a 200 OK response,
+     // then throw an exception.
+     return "fail";
+   }
+ }
 </pre>
