@@ -1,0 +1,119 @@
+
+<pre>
+<h1>2024년 01월 16일</h1>
+
+<h2>다이얼패드 로딩</h2>
+*pugspec.yaml의 dependencies에 추가
+ url_launcher: ^6.2.3
+*package:flutter_dialpad/flutter_dialpad.dart의 Dialpad는 bottom overflow 발생시킴
+*package:url_launcher/url_launcher.dart를 사용하는 것이 좋음
+        Uri phoneno = Uri.parse('tel:+821073246958');
+
+            if(await launchUrl(phoneno)){
+
+            }else{
+              
+            }
+
+<h2>구글 맵 로딩</h2>
+*pugspec.yaml의 dependencies에 추가
+  google_maps_flutter: ^2.5.3
+*package:google_maps_flutter/google_maps_flutter.dart 사용
+    class MapScreen extends StatelessWidget {
+        const MapScreen({super.key});
+  
+        @override
+        Widget build(BuildContext context) {
+        final googleMapController = Completer<GoogleMapController>();
+        const CameraPosition plex = CameraPosition(
+        target: LatLng(37.42796133580664, -122.085749655962),
+        zoom: 14.4746,
+        );
+    
+        return GoogleMap(
+            mapType: MapType.hybrid,
+            initialCameraPosition: plex,
+            onMapCreated: (GoogleMapController controller) => googleMapController.complete(controller),
+        );
+        }
+    }
+
+
+<h2>카카오 공유 로딩</h2>
+*pugspec.yaml의 dependencies에 추가
+kakao_flutter_sdk_share: ^1.8.0 
+
+
+<h1>2024년 01월 17일</h1>
+<h2>악취센서 앱</h2>
+*구조
+-몇 개의 센서와 센서별 값을 보여줌(v1)
+-Tabbar와 TabbarView 
+-DefaultTabController에게 탭 갯수를 알려줘야 함
+-TabController도 있음
+    vsync를 연결해야 함
+    기본 Widget에서는 사용 불가
+    Ticker 위젯을 믹스인 해야 함
+
+    DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+            bottom: const TabBar(
+                            tabs:[
+                            
+                            ]
+            )
+        )
+        body: const TabBarView(
+            children:[
+            ]
+        )
+      ...
+      ));
+
+
+
+<h1>2024년 01월 18일</h1>      
+*DB 연결(기기내 DB 파일)
+-https://docs.flutter.dev/cookbook/persistence/sqlite
+-import sqflite 와 path 패키지
+ flutter pub add sqflite path
+
+-import 패키지
+ import 'package:sqflite/sqflite.dart';
+ import 'package:path/path.dart';
+-data model class 정의
+  
+*DB 연결(db 서버 연결)
+1. DB 서버 설치
+   -mysql, h2
+2. DB 서버에 backend API 작성
+ 
+3. Dio를 사용하여 request 보냄
+Future<String> getData() async {
+    BaseOptions options = BaseOptions(
+           baseUrl: "https://10.0.2.2:8080/flutterApi.php",
+           receiveDataWhenStatusError: true,
+           connectTimeout: const Duration(seconds: 50000), // 60 seconds
+           receiveTimeout: const Duration(seconds: 50000) // 60 seconds
+           );
+        Dio dio = new Dio(options);  
+   final response = await dio.get("https://10.0.2.2:8080/flutterApi.php");
+   
+   print(response.statusCode);
+   if (response.statusCode == 200) {
+     // If the server did return a 200 OK response,
+     // then parse the JSON.
+     
+     return "ok";
+   } else {
+     // If the server did not return a 200 OK response,
+     // then throw an exception.
+     return "fail";
+   }
+ }
+
+
+
+</pre>
