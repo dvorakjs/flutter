@@ -5,12 +5,117 @@
 -Realtime database, cloud storage, authentication, crash reporting, machine learning, remote configration, static file에 대한 hosting
 
 -앱에서 Firebase 초기화
- 1. flutter pub add firebase_core
- 2. Firebase 최신 상태 확인
-    flutterfire configure
- 2. main.dart에 추가
-    import 'package:firebase_core/firebase_core.dart';
-    import 'firebase_options.dart';
+  1. firebase.google.com의 console에서 프로젝트 생성
+  2. flutter sdk 설치
+  3. path 설정
+  4. dart sdk 설치
+  5. path 설정(제일 위에 위치하게) 
+  6. flutter pub add firebase_core
+  7. dart pub global activate flutterfire_cli
+  8. 해당 flutter 폴더로 이동
+  9. cmd에서 firebase login
+ 10. flutterfire configure
+ 11. 해당 프로젝트 선택
+ 12. android, ios 등등 선택
 
-    https://firebase.google.com/docs/flutter/setup?hl=ko&platform=ios
+
+-앱에서 firebase를 이용한 login 구현 
+   1. 플러그 인 설치
+      flutter pub add firebase_auth
+   2. Emulator 선택
+   3. 앱 다시 빌드
+      flutter run(터미널) 또는 Run(메뉴)
+   4. Dart 코드에서 플러그인 가져오기(main.dart)
+      import 'package:firebase_auth/firebase_auth.dart';
+      import 'package:firebase_core/firebase_core.dart';
+      import 'firebase_options.dart';
+
+   5. main.dart 수정
+      void main() async{
+         WidgetsFlutterBinding.ensureInitialized();
+      
+         await Firebase.initializeApp(options:DefaultFirebaseOptions.currentPlatform,);
+      
+         runApp(const MyApp());
+      }   
+-GetX
+   * 상태 관리 패키지
+   * 관리 방식
+     - 단순 상태 관리
+       ~ 데이터 변화에 상관없이 다시 랜더링
+       ~ GetXController를 상속한 Controller 클래스 필요
+     - 반응형 상태 관리
+       ~ 데이터가 변화가 있을 때만 다시 랜더링
+       ~ workers라는 추가 기능 있음
+
+   * 사용법
+      1. Dependecy 해결
+         flutter pub get
+      2. import
+         import 'package:get/get.dart'
+      3. build 함수에서 MaterialApp 대신 GetMaterialApp 사용 
+      
+      ~ 기본 이동
+        Get.to(()=>NextPage())
+      ~ 인자와 함께 이동
+        Get.to(()=>NextPage(), arguments: value);
+        
+      ~ 인자 받기
+        var args = Get.arguments;
+        
+      ~ 원래 페이지에서 인자 받기
+         var args = await Get.to(NextPage())
+
+      ~ 이동한 페이지에서 인자 받기
+         Get.back(result: value)
+
+      ~ 이전 페이지 삭제 후 이동
+        Get.off(()=>NextPage())
+        
+      ~ 이전 페이지 모두 삭제 후 이동
+        Get.offAll(()=>NextPage())
+
+      ~ 이름으로 이동하기
+        - Get.toNamed('/papa/1234');
+        - GetMaterialApp에서 getPages속성을 추가해야 함
+               Widget build(BuildContext context) {
+                  return GetMaterialApp(
+                  getPages: [
+                     GetPage(
+                        name: '/',
+                        page: () => FirstPage(),
+                     ),
+                     GetPage(
+                        name: '/two',
+                        page: () => SecondPage(),
+                     ),
+                     GetPage(
+                        name: '/three',
+                        page: () => ThirdPage(),
+                     ),
+                     GetPage(
+                        name: '/a/b/c1',
+                        page: () => ABCOnePage(),
+                     ),
+                     GetPage(
+                        name: '/papa/:param',
+                        page: () => ParamPage(),
+                     ),
+                     ],
+                  );
+               }
+       
+         - Get.parameters['param'] 으로 param 값 받음
+         - 쿼리도 사용 가능
+           Get.toNamed('/papa/value?id=123&name=침착맨')
+           Get.parameters['id'] 
+           Get.parameters['name']   
+
+
+
+
+
+
+
+ 
 </pre>
